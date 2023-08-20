@@ -1,0 +1,11 @@
+{% for post in posts %}
+    <a href="{% url 'single_post' post.id %}">
+        <h3>
+            {{post.title}}
+        </h3>
+    </a>
+{% endfor %}
+
+<a href="{% url 'create_post' %}">
+    create new Post
+</a>
