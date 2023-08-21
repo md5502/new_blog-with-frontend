@@ -1,5 +1,28 @@
-<form action="", method="post">
-    {%csrf_token%}
-    {{ form.as_p }}
-    <input type="submit", value="send">
-</form>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Create Post
+{% endblock title %}
+
+{% block content %}
+        <main class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <p>Write a new Post</p>
+                        <div class="my-5">
+                            <form id="contactForm" action="" method="post" enctype="multipart/form-data" >
+                                {% csrf_token %}
+                                
+                                {{ form.as_p}}
+                                <br />
+                                <input class="btn btn-primary text-uppercase" id="submitButton" type="submit" value="Send">
+                            </form>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </main>
+
+{% endblock %}

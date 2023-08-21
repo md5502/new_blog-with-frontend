@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {{post.title}}
+{% endblock title %}
+
+
+{% block style %}
+        <style>
+            header.masthead {
+                position: relative;
+                margin-bottom: 3rem;
+                padding-top: calc(8rem + 57px);
+                padding-bottom: 8rem;
+                background: no-repeat center center;
+                background-color: #6c757d;
+                background-size: cover;
+                background-attachment: scroll;
+                background-image: url("{{post.image.url}}");
+                }
+        </style>
+{% endblock style %}
+
+{% block content %}
+
+    <header class="header_bg masthead">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="post-heading">
+                        <h1>{{post.title}}</h1>
+                        <h2 class="subheading">{{ post.created }}</h2>
+                        <span class="meta">
+                            Posted by
+                            <a href="#!">{{ post.writer }}</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <article class="mb-4">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    {{ post.body |linebreaks }}
+                </div>
+            </div>
+        </div>
+    </article>
+</div>
+
+
+<form action=""></form>
+    {% endblock %}

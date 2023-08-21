@@ -1,11 +1,67 @@
-{% for post in posts %}
-    <a href="{% url 'single_post' post.id %}">
-        <h3>
-            {{post.title}}
-        </h3>
-    </a>
-{% endfor %}
+{% extends 'base.html' %}
+{% load static %}
 
-<a href="{% url 'create_post' %}">
-    create new Post
-</a>
+{% block title %}
+    home
+{% endblock title %}
+
+
+{% block style %}
+        <style>
+            header.masthead {
+                position: relative;
+                margin-bottom: 3rem;
+                padding-top: calc(8rem + 57px);
+                padding-bottom: 8rem;
+                background: no-repeat center center;
+                background-color: #6c757d;
+                background-size: cover;
+                background-attachment: scroll;
+                background-image: url("{% static 'assets/img/home-bg.jpg' %}");
+                }
+        </style>
+{% endblock style %}
+
+{% block content %}
+
+<!-- Page Header-->
+    <header class="header_bg masthead ">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>وبلاگ جنگویی</h1>
+                        <span class="subheading">حرف های خودت رو انجا به اشتراک بزار</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main Content-->
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <!-- Post preview-->
+                {% for post in posts %}
+                    <div class="post-preview">
+                        <a href="{%url 'single_post' post.id%}">
+                            <h2 class="post-title">{{post.title}}</h2>
+                            <h3 class="post-subtitle">{{post.body|truncatechars:100}}</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by 
+                            <a href="#!">{{ post.writer}}</a>
+                            {{ post.created }}
+                        </p>
+                    </div>
+                    <!-- Divider-->
+                    <hr class="my-4" />
+                    
+                {% endfor %}
+                <!-- Pager-->
+                <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
