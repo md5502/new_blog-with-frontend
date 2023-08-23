@@ -1,13 +1,13 @@
 from django import forms
-from .models import Post, Comment
+from .models import Post, Comment, Tag
 
 class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'body','writer', 'tags', 'image']
         widgets = {
-            'title': forms.TextInput(attrs={"id": "name", "type": "text", "placeholder": "Enter your name...", 'class': 'form-control'}),
-            'body': forms.Textarea  (attrs={"class" : "form-control", "id" : "message", "placeholder" : "content of your post ...", "style" : "height: 12rem"}),
+            'title': forms.TextInput(attrs={"id": "name", "type": "text", "placeholder": "Enter your name...", 'class': 'form-control rounded'}),
+            'body': forms.Textarea  (attrs={"class" : "form-control rounded", "id" : "message", "placeholder" : "content of your post ...", "style" : "height: 12rem"}),
             'tags': forms.CheckboxSelectMultiple(),
             # 'writer': forms.CheckboxSelectMultiple(),
         }
@@ -16,4 +16,16 @@ class PostCreateForm(forms.ModelForm):
 class CommentCreateForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = ['body', 'post']
+        widgets = {
+            'body': forms.Textarea  (attrs={"class" : "form-control rounded", "id" : "message", "placeholder" : "live a Comment", "style" : "height: 12rem"}),
+        }
+
+
+class TagCreateForm(forms.ModelForm):
+    class Meta:
+        model = Tag
+        fields = ['name']
+        widgets = {
+            'name': forms.TextInput(attrs={"id": "name", "type": "text", "placeholder": "Enter your name...", 'class': 'form-control rounded'})
+        }
