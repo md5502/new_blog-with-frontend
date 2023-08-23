@@ -1,12 +1,11 @@
 from django.shortcuts import redirect, render
-from .forms import PostCreateForm, CommentCreateForm
-from .models import Post
+from .forms import PostCreateForm, CommentCreateForm, TagCreateForm
+from .models import Post, Comment, Tag
 from django.contrib import messages
 # Create your views here.
 
 def home(request):
     posts = Post.objects.all()
-
     return render(request=request, template_name="Post/home.html", context={'posts': posts}) 
 
 
@@ -15,13 +14,14 @@ def show_post(request, pk):
         form = CommentCreateForm(request.POST)
         if form.is_valid():
             form.save()
-            msg = messages.success(request, " Comment has been Created successfully.")
+            messages.success(request, " Comment has been Added successfully.")
             return redirect(show_post, pk=pk)
     else:
         form = CommentCreateForm()
 
     post = Post.objects.get(id = pk)
-    return render(request=request, template_name="Post/post.html", context={'post': post, 'comment_form': form}) 
+    comments = Comment.objects.filter(post_id = pk )
+    return render(request=request, template_name="Post/post.html", context={'post': post, 'form': form, 'comments': comments}) 
 
 def create_post(request):
     form = PostCreateForm()
@@ -29,16 +29,16 @@ def create_post(request):
         form = PostCreateForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            msg = messages.success(request, " Post has been Created successfully.")
+            messages.success(request, " Post has been Created successfully.")
             return redirect(home)
 
     return render(request, template_name='Post/create_post.html', context={'form' : form})
             
 
-def delet_post(request, pk):
+def delete_post(request, pk):
     post = Post.objects.get(id = pk)
     post.delete()
-    msg = messages.success(request, f"{post.title} has been deleted successfully.")
+    msg = messages.warning(request, f"{post.title} has been deleted successfully.")
     return redirect(home)
 
 def update_post(request, pk):
@@ -49,9 +49,33 @@ def update_post(request, pk):
         form = PostCreateForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
-            msg = messages.success(request, " Post has been Created successfully.")
+            messages.info(request, " Post has been Created successfully.")
             return redirect(home)
 
     return render(request, template_name='Post/create_post.html', context={'form' : form})
       
 
+
+
+def category(request):
+    tags = Tag.objects.all()
+
+    form = TagCreateForm()
+    if request.method == 'POST':
+        form = TagCreateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, " Category has been Created successfully.")
+            return redirect(category)
+    return render(request=request, template_name='Post/category.html', context={'tags':tags, 'form' : form})
+
+
+def Show_category_posts(request, cat):
+    posts = Post.objects.filter(tags = cat)
+    return render(request=request, template_name="Post/home.html", context={'posts': posts}) 
+    
+def show_cat_posts(request, cat):
+
+    tag = Tag.objects.get(name=cat)
+    posts_with_tag = Post.objects.filter(tags=tag)
+    return render(request=request, template_name="Post/cat_post.html", context={'posts': posts_with_tag, 'tag_name': cat}) 
