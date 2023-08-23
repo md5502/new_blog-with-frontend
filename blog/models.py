@@ -23,7 +23,7 @@ class Post(models.Model):
     
 
 class Tag(models.Model):
-    name=models.CharField(max_length=120)
+    name=models.CharField(max_length=120, unique=True)
 
     created = models.DateTimeField(auto_now_add=True)
     id = models.CharField(unique=True, primary_key=True, default=uuid.uuid4, editable=False, max_length=200)
@@ -38,6 +38,6 @@ class Comment(models.Model):
     id = models.CharField(unique=True, primary_key=True, default=uuid.uuid4, editable=False, max_length=200)
 
     def __str__(self):
-        return self.created
+        return str(self.body)
 
     
