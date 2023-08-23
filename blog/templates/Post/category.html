@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ post.title }}
+{% endblock title %}
+
+{% block style %}
+<style>
+    header.masthead {
+        position: relative;
+        margin-bottom: 3rem;
+        padding-top: calc(8rem + 72px); /* Increased padding for a better top space */
+        padding-bottom: 6rem; /* Reduced bottom padding for a more balanced layout */
+        background: no-repeat center center;
+        background-color: #6c757d;
+        background-size: cover;
+        background-attachment: scroll;
+        background-image: url("{% static 'assets/img/categorys.jpg' %}");
+    }
+
+    .tags{
+        font-size: 18px;
+        padding: 5px 9px;
+        border-radius: 12px;
+        margin: 1px 4px;
+        text-transform: lowercase;
+        background-color: #e91e63;
+        color:#fff;
+        }
+        .tag-btn{
+            margin: 10px 1px;
+            border-radius: 15px;
+        }
+</style>
+{% endblock style %}
+
+{% block content %}
+<header class="header_bg masthead ">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Categorys</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 text-justify">
+            {% for tag in tags %}
+                    <a class="tags" href="{% url 'show_cat_posts' tag.name %}">
+                        {{ tag.name }}
+                    </a>                </span>
+                {% endfor %}
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-10 offset-md-1">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{form }}
+                    <input class="btn btn-success tag-btn" type="submit" value="Add category">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

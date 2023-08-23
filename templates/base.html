@@ -9,18 +9,67 @@
         <meta name="author" content="" />
         <title>{% block title %}{% endblock title %}</title>
         <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
-
+        
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         {% block style %}  {% endblock style %}
     </head>
     <body>
         
         {% include 'navbar.html' %}
         {% block content %}
-            
+
         {% endblock content %}
         <!-- Footer-->
-        
+    {% if messages %}
+        {% for message in messages %}
+            <div class="container mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="position-fixed" style="bottom: 20px; right: 20px;">
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+        <footer class="footer">
+            <div class="container py-4" style="height: 25rem;">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <h5>About Us</h5>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                    <div class="col-lg-4">
+                        <h5>Contact Us</h5>
+                        <p>Email: example@example.com<br>Phone: +123456789</p>
+                    </div>
+                    <div class="col-lg-4">
+                        <h5>Social Media</h5>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <script>
+            // Dismiss the alert after 5 seconds
+            setTimeout(function() {
+                $('.alert').alert('close');
+            }, 5000);
+        </script>
         <script src="{% static 'js/scripts.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     </body>
 </html>

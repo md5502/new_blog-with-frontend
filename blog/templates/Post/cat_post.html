@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ post.title }}
+{% endblock title %}
+
+{% block style %}
+<style>
+    header.masthead {
+        position: relative;
+        margin-bottom: 3rem;
+        padding-top: calc(8rem + 72px); /* Increased padding for a better top space */
+        padding-bottom: 6rem; /* Reduced bottom padding for a more balanced layout */
+        background: no-repeat center center;
+        background-color: #6c757d;
+        background-size: cover;
+        background-attachment: scroll;
+        background-image: url("{% static 'assets/img/categorys.jpg' %}");
+    }
+    .tags{
+        font-size: 18px;
+        padding: 5px 9px;
+        border-radius: 12px;
+        margin: 1px 4px;
+        text-transform: lowercase;
+        background-color: #e91e63;
+        color:#fff;
+        }
+</style>
+{% endblock style %}
+
+{% block content %}
+<header class="header_bg masthead ">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h2>Posts with {{ tag_name }} Category</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Post preview-->
+        {% if posts %}
+            {% for post in posts %}
+                <div class="post-preview">
+                    <a href="{%url 'single_post' post.id%}">
+                        <h2 class="post-title">{{post.title}}</h2>
+                        <h3 class="post-subtitle">{{post.body|truncatechars:100}}</h3>
+                    </a>
+                    
+                    {% for tag in post.tags.all %}
+                    <span class="tags">
+                        <a class="tags" href="{% url 'show_cat_posts' tag %}">
+                            {{ tag }}
+                        </a>
+                    </span>
+                    {% endfor %}
+                    <p class="post-meta">
+                        Posted by 
+                        <a href="#!">{{ post.writer}}</a>
+                        {{ post.created }}
+                    </p>
+                </div>
+                <!-- Divider-->
+                <hr class="my-4" />
+                <!-- Pager-->
+                <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
+
+            {% endfor %}
+        {% else %}
+            <div style="height: 500px; ">
+                <a href="{% url 'create_post' %}" class="btn btn-success reduced">Create Post</a>
+            </div>
+        {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
