@@ -10787,3 +10787,89 @@ header.masthead .post-heading .meta a {
     font-size: 2.25rem;
   }
 }
+
+
+
+.tags{
+  font-size: 18px;
+  padding: 5px 9px;
+  border-radius: 12px;
+  margin: 1px 4px;
+  text-transform: lowercase;
+  background-color: #e91e63;
+  color:#fff;
+  }
+  .tag-btn{
+      margin: 10px 1px;
+      border-radius: 15px;
+  }
+
+
+  
+  .post-heading h1 {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.subheading {
+    font-weight: 500;
+    color: #f8f9fa;
+}
+
+.meta {
+    font-size: 0.9rem;
+    color: #f8f9fa;
+}
+
+.text-justify {
+    text-align: justify;
+    padding: 0 1rem; /* Add padding to both sides for better readability */
+}
+
+.comment.card {
+    border: none;
+    background-color: #f8f9fa;
+}
+
+.comment.card .card-body {
+    padding: 1.5rem;
+}
+
+.comment.card.mb-3 {
+    margin-bottom: 1rem;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+}
+
+.comment-form {
+    margin-top: 2rem;
+}
+
+.comment-form .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.update-button,
+.delete-button {
+    margin-top: 10px;
+    margin-right: 10px;
+    display: inline-block;
+}
+select#id_post {
+    border-radius: 5px;
+    border: none;
+    border: 1px solid #555;
+}
+
+
+.reduced{
+  border-radius: 10px;
+  font-size: 25px;
+}
