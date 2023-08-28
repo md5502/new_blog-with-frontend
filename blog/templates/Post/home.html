@@ -59,7 +59,7 @@
             {% if posts %}
                 {% for post in posts %}
                     <div class="post-preview">
-                        <a href="{%url 'single_post' post.id%}">
+                        <a href="{%url 'single_post' post.id %}">
                             <h2 class="post-title">{{post.title}}</h2>
                             <h3 class="post-subtitle">{{post.body|truncatechars:100}}</h3>
                         </a>
