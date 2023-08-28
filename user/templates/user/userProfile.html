@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ post.title }}
+{% endblock title %}
+
+{% block style %}
+<style>
+    header.masthead {
+        position: relative;
+        margin-bottom: 3rem;
+        padding-top: calc(8rem + 72px); /* Increased padding for a better top space */
+        padding-bottom: 6rem; /* Reduced bottom padding for a more balanced layout */
+        background: no-repeat center center;
+        background-color: #6c757d;
+        background-size: cover;
+        background-attachment: scroll;
+        /* background-image: url("{{ post.image.url }}"); */
+    }
+
+    .post-heading h1 {
+        font-size: 3.5rem;
+        line-height: 1.2;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #fff;
+    }
+
+    .subheading {
+        font-weight: 500;
+        color: #f8f9fa;
+    }
+    .tags{
+        font-size: 18px;
+        padding: 5px 9px;
+        border-radius: 12px;
+        margin: 1px 4px;
+        text-transform: lowercase;
+        background-color: #e91e63;
+        color:#fff;
+        }
+
+        nav#mainNav {
+        background-color: black;
+        }
+        section{
+            margin-top: 20 px;
+        }
+
+</style>
+{% endblock style %}
+
+{% block content %}
+  <section>
+    <div class="py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col col-lg-9 col-xl-7">
+            <div class="card">
+              <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
+                <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+                  <img src="{{profile.profile_picture.url}}"
+                    alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                    style="width: 150px; z-index: 1">
+                  <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                    style="z-index: 1;">
+                    Edit profile
+                  </button>
+                </div>
+                <div class="ms-3" style="margin-top: 130px;">
+                  <h5>{{profile.name}}</h5>
+                </div>
+              </div>
+              <div class="p-4 text-black" style="background-color: #f8f9fa;">
+                <div class="d-flex justify-content-end text-center py-1">
+                  <div>
+                    <p class="mb-1 h5">{{post_count}}</p>
+                    <p class="small text-muted mb-0">Posts</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body p-4 text-black">
+                <div class="mb-5">
+                  <p class="lead fw-normal mb-1">About</p>
+                  <div class="p-4" style="background-color: #f8f9fa;">
+                    <p class="font-italic mb-0">{{userprofile.bio}}</p>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <p class="lead fw-normal mb-0">Posts</p>
+                </div>
+
+                {% for post in posts %}
+                <div class="card mb-5" style="border-radius: 15px;">
+                    <div class="card-body p-4">
+                        <h3 class="mb-3">
+                            <a href="{% url 'single_post' post.id %}">
+                                {{post.title}}
+                            </a>
+                        </h3>
+                        <p>{{post.body|truncatechars:150}}</p>
+                        <p class="small mb-0"><i class="far fa-star fa-lg"></i> <span class="mx-2">|</span> Created by
+                            <strong>{{post.owner}}</strong> {{post.created}}</p>
+                        <hr class="my-4">
+                        <div class="d-flex justify-content-start align-items-center">
+                            <a href="{% url 'update_post' post.id %}" class="btn btn-primary me-3">
+                                <i class="fas fa-cog"></i> <span class="small">Edit</span>
+                            </a>
+                            <a href="{% url 'update_post' post.id %}" class="btn btn-info me-3">
+                                <i class="fas fa-link"></i> <span class="small">Comments
+                                    <span class="badge bg-info text-white">15</span>
+                                </span>
+                            </a>
+                            <a href="{% url 'update_post' post.id %}" class="btn btn-secondary">
+                                <span class="small">Total Votes
+                                    <span class="badge bg-info text-white">15</span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                {% endfor %}
+                
+  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+{% endblock %}
