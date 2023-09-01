@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     # 3rd party pkgs
 
     # local apps
-    'blog',
-    'user',
+    'blog.apps.BlogConfig',
+    'user.apps.UserConfig',
 ]
 
 MIDDLEWARE = [

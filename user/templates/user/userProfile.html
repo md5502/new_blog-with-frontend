@@ -7,6 +7,7 @@
 
 {% block style %}
 <style>
+
     header.masthead {
         position: relative;
         margin-bottom: 3rem;
@@ -62,10 +63,10 @@
                   <img src="{{profile.profile_picture.url}}"
                     alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                     style="width: 150px; z-index: 1">
-                  <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                  <a href="{% url 'EditProfile' profile.id %}" type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                     style="z-index: 1;">
                     Edit profile
-                  </button>
+                </a>
                 </div>
                 <div class="ms-3" style="margin-top: 130px;">
                   <h5>{{profile.name}}</h5>
@@ -83,7 +84,7 @@
                 <div class="mb-5">
                   <p class="lead fw-normal mb-1">About</p>
                   <div class="p-4" style="background-color: #f8f9fa;">
-                    <p class="font-italic mb-0">{{userprofile.bio}}</p>
+                    <p class="font-italic mb-0">{{profile.bio}}</p>
                   </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -121,6 +122,9 @@
                 </div>
                 
                 {% endfor %}
+                <a href="{% url 'delete-profile' profile.id %}" class="btn btn-warning">
+                  delete Profile
+                </a>
                 
   
               </div>

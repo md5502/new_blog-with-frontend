@@ -8,6 +8,7 @@ class UserProfile(models.Model):
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, default='profile_pics/def_profile.png')
     bio = models.TextField(blank=True, null=True)
     website = models.URLField(blank=True, null=True)
+    email = models.EmailField(null=True, blank=True)
     # Additional fields
     twitter_username = models.CharField(max_length=50, blank=True, null=True)
     instagram_username = models.CharField(max_length=50, blank=True, null=True)

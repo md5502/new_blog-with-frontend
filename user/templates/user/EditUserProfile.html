@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% block title %} 
+
+{{ EditUserProfile }}
+
+
+{% endblock title %} 
+
+
+{% block style %}
+    <style>
+        /* Apply a modern font and set a default background color */
+        body {
+    background: #f093fb;
+
+    background: -webkit-linear-gradient(to bottom right,
+        rgba(240, 147, 251, 1),
+        rgba(245, 87, 108, 1));
+
+    background: linear-gradient(to bottom right,
+        rgba(240, 147, 251, 1),
+        rgba(245, 87, 108, 1));
+  }
+
+/* Style the navigation bar */
+.navbar {
+    background-color: #333;
+    color: white;
+}
+
+.navbar-brand {
+    color: white;
+}
+
+.navbar-toggler {
+    color: white;
+    border-color: white;
+}
+
+.nav-link {
+    color: white;
+}
+
+/* Style the form */
+form {
+    
+    max-width: 600px;
+    margin: 20px auto;
+    margin-top: 100px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+input[type="file"] {
+    display: block;
+    margin-top: 5px;
+}
+
+input[type="submit"] {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* Style the footer */
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.social-icon {
+    font-size: 20px;
+    color: white;
+    margin: 0 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .navbar-collapse {
+        background-color: #333;
+    }
+    .nav-link {
+        color: white;
+    }
+}
+
+    </style>
+{% endblock style %} 
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Edit Profile">
+    </form>
+{% endblock content %}
