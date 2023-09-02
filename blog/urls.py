@@ -7,6 +7,6 @@ urlpatterns=[
     path('create_post/', name='create_post', view=create_post),
     path('delete_post/<str:pk>', name='delete_post', view=delete_post),
     path('update_post/<str:pk>', name='update_post', view=update_post),
-    path('categorys', name='categorys', view=category),
+    path('categories', name='category', view=category),
     path('show_cat_posts/<str:cat>', name='show_cat_posts', view=show_cat_posts),
 ]
