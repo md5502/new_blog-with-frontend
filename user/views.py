@@ -1,88 +1,102 @@
-from django.shortcuts import render ,redirect
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth.models import User
 from .models import UserProfile
 from blog.models import Post
-from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.models import User
-from .form import CustomUserCreationForm, EditUserProfile
-from django.contrib import messages
-# Create your views here.
+from .forms import CustomUserCreationForm, EditUserProfile
 
 def loginUser(request):
-    page = 'login'
     if request.user.is_authenticated:
-        messages.info(request, "You are Already logged in")
+        messages.info(request, "You are already logged in.")
         return redirect('home')
-    
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-
-        try:
-            user = User.objects.get(username = username)
-        except:
-            print('user name dose not exist')
         
-        user = authenticate(request=request, username=username, password = password)
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            messages.warning(request, "Username does not exist.")
+            return redirect('login')
+        
+        user = authenticate(request=request, username=username, password=password)
 
         if user is not None:
             login(request=request, user=user)
-            messages.success(request, "you'r logged in ")
+            messages.success(request, "You're logged in.")
             return redirect('home')
         else:
-            messages.warning(request, "username or password is incorrect")
-            
-    return render(request, template_name='user/login_register.html',  context={'page': page})
-
+            messages.warning(request, "Username or password is incorrect.")
+    
+    return render(request, template_name='user/login_register.html', context={'page': 'login'})
 
 def logoutUser(request):
     logout(request=request)
-    messages.success(request, "you'r logged OUT ")
-
-    return redirect(loginUser)
+    messages.success(request, "You're logged out.")
+    return redirect('login')
 
 def registerUser(request):
-    page = 'register'
-    form = CustomUserCreationForm()
+    if request.user.is_authenticated:
+        messages.info(request, "You are already registered and logged in.")
+        return redirect('home')
+    
     if request.method == 'POST':
-       form = CustomUserCreationForm(request.POST)
-       if form.is_valid():
-           user = form.save(commit=False)
-           user.username = user.username.lower()
-           user.save()
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            
+            login(request, user)
+            messages.success(request, 'The user account was created.')
+            return redirect('home')
+        else:
+            messages.warning(request, 'An error occurred during registration.')
+    else:
+        form = CustomUserCreationForm()
 
-           messages.success(request, 'the User accost was created')
-           login(request, user)
-           return redirect('home')
-       else:
-           messages.warning(request, 'an error has occurred during registration')
-    return render(request, template_name='user/login_register.html', context={'page': page, 'form': form})
+    return render(request, template_name='user/login_register.html', context={'page': 'register', 'form': form})
 
-
+@login_required(login_url='login')
 def userprofile(request, pk):
     user = User.objects.get(id=pk)
-    userprofile = UserProfile.objects.get(user = user)
-
+    userprofile = UserProfile.objects.get(user=user)
     posts = Post.objects.filter(owner_id=userprofile.id)
-    
     post_count = len(posts)
     return render(request, template_name='user/userProfile.html', context={'profile': userprofile, 'post_count': post_count, 'posts': posts})
 
-
-
+@login_required(login_url='login')
 def EditProfile(request, pk):
-    profile = UserProfile.objects.get(id = pk)
+    profile = UserProfile.objects.get(id=pk)
     form = EditUserProfile(instance=profile)
+
+
+    if request.user != profile.user:
+        messages.error(request, "You don't have permission to edit this profile.")
+        return redirect('home')
+    
     if request.method == 'POST':
         form = EditUserProfile(request.POST, request.FILES, instance=profile)
-        if form.is_valid:
-            form.save()
-            messages.info(request, "Profile has been Created successfully.")
-            return redirect(userprofile, pk=profile.user.id)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            messages.success(request, "Profile has been updated successfully.")
+            return redirect('userprofile', pk=profile.user.id)
     
     return render(request, template_name='user/EditUserProfile.html', context={'form': form})
 
+@login_required(login_url='login')
 def DeleteProfile(request, pk):
-    profile = UserProfile.objects.get(id = pk)
-    profile.delete()
-    messages.warning(request, 'Profile has been deleted successfully')
+    profile = UserProfile.objects.get(id=pk)
+    if request.user != profile.user:
+        messages.error(request, "You don't have permission to edit this profile.")
+        return redirect('home')
+    else:
+        profile.delete()
+    
+    messages.warning(request, 'Profile has been deleted successfully.')
     return redirect('home')
