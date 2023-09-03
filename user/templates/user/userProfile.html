@@ -32,15 +32,7 @@
         font-weight: 500;
         color: #f8f9fa;
     }
-    .tags{
-        font-size: 18px;
-        padding: 5px 9px;
-        border-radius: 12px;
-        margin: 1px 4px;
-        text-transform: lowercase;
-        background-color: #e91e63;
-        color:#fff;
-        }
+ 
 
         nav#mainNav {
         background-color: black;
@@ -107,16 +99,12 @@
                             <a href="{% url 'update_post' post.id %}" class="btn btn-primary me-3">
                                 <i class="fas fa-cog"></i> <span class="small">Edit</span>
                             </a>
-                            <a href="{% url 'update_post' post.id %}" class="btn btn-info me-3">
+                            <a href="{% url 'single_post' post.id %}" class="btn btn-info me-3">
                                 <i class="fas fa-link"></i> <span class="small">Comments
-                                    <span class="badge bg-info text-white">15</span>
+                                    <span class="badge bg-info text-white">{{post.comments}}</span>
                                 </span>
                             </a>
-                            <a href="{% url 'update_post' post.id %}" class="btn btn-secondary">
-                                <span class="small">Total Votes
-                                    <span class="badge bg-info text-white">15</span>
-                                </span>
-                            </a>
+
                         </div>
                     </div>
                 </div>

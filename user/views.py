@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import UserProfile
-from blog.models import Post
+from blog.models import Post, Comment
 from .forms import CustomUserCreationForm, EditUserProfile
 
 def loginUser(request):
@@ -62,15 +62,19 @@ def registerUser(request):
 
 @login_required(login_url='login')
 def userprofile(request, pk):
-    user = User.objects.get(id=pk)
-    userprofile = UserProfile.objects.get(user=user)
+    user = get_object_or_404(User, id=pk)
+    userprofile = get_object_or_404(UserProfile, user=user)
     posts = Post.objects.filter(owner_id=userprofile.id)
+    posts_comments = []
+    for post in posts:
+        comments_count = len(Comment.objects.filter(post = post))
+        post.comments = comments_count
     post_count = len(posts)
     return render(request, template_name='user/userProfile.html', context={'profile': userprofile, 'post_count': post_count, 'posts': posts})
 
 @login_required(login_url='login')
 def EditProfile(request, pk):
-    profile = UserProfile.objects.get(id=pk)
+    profile = get_object_or_404(UserProfile, id=pk)
     form = EditUserProfile(instance=profile)
 
 
