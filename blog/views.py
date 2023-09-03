@@ -3,12 +3,32 @@ from django.contrib import messages
 from django.db import models
 from .forms import CommentCreateForm, TagCreateForm, PostCreateForm
 from .models import Post, Comment, Tag
-
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth.decorators import login_required
 
+
+
 def home(request):
-    posts = Post.objects.all()
-    return render(request=request, template_name="Post/home.html", context={'posts': posts})
+    posts_per_page = 10  # Adjust this value as desired
+
+    all_posts = Post.objects.filter(status = 'P')
+
+    paginator = Paginator(all_posts, posts_per_page)
+
+    page = request.GET.get('page')
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    return render(
+        request=request,
+        template_name="Post/home.html",
+        context={'posts': posts}
+    )
 
 def show_post(request, pk):
     post = get_object_or_404(Post, id=pk)
@@ -87,7 +107,6 @@ def update_post(request, pk):
 def category(request):
     tags = Tag.objects.all()
     form = TagCreateForm()
-    
     if request.method == 'POST':
         form = TagCreateForm(request.POST)
         if form.is_valid():
