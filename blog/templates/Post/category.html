@@ -23,13 +23,14 @@
         font-size: 18px;
         padding: 5px 9px;
         border-radius: 12px;
-        margin: 1px 4px;
+        margin: 10px;
+        margin-top: 10px;
         text-transform: lowercase;
         background-color: #e91e63;
         color:#fff;
         }
         .tag-btn{
-            margin: 10px 1px;
+            margin: 10px;
             border-radius: 15px;
         }
 </style>
@@ -51,12 +52,14 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6 text-justify">
+        <div class="col-md-6">
             {% for tag in tags %}
-                    <a class="tags" href="{% url 'show_cat_posts' tag.name %}">
+                <h4 style="display: inline;">
+                    <a class="badge badge-secondary" href="{% url 'show_cat_posts' tag.name %}">
                         {{ tag.name }}
-                    </a>                </span>
-                {% endfor %}
+                    </a>
+                </h4>
+            {% endfor %}
         </div>
         <div class="col-md-6">
             <div class="col-md-10 offset-md-1">
