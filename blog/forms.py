@@ -4,7 +4,7 @@ from .models import Post, Comment, Tag
 class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'body', 'tags', 'image']
+        fields = ['title', 'body', 'status', 'tags', 'image']
         widgets = {
             'title': forms.TextInput(attrs={"id": "name", "type": "text", "placeholder": "Enter your name...", 'class': 'form-control rounded'}),
             'body': forms.Textarea  (attrs={"class" : "form-control rounded", "id" : "message", "placeholder" : "content of your post ...", "style" : "height: 12rem"}),
